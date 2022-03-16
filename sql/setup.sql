@@ -10,3 +10,8 @@ CREATE TABLE albums (
     year SMALLINT,
     tracks TEXT []
 );
+
+-- INSERT INTO
+--     albums (title, artist, year, tracks)
+-- VALUES
+--     ('So Sad So Sexy', 'Lykke Li', 2018, ['hard rain', 'deep end', 'two nights', 'Last Piece', 'Jaguars in the Air', 'sex money feelings die', 'So Sad So Sexy', 'Better Alone', 'Bad Woman', 'Utopia'])

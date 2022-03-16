@@ -34,4 +34,24 @@ describe('any-api routes', () => {
       }
     );
   });
+
+  it('should be able to list all albums', async () => {
+    await Album.insert({
+      title: 'Honey',
+      artist: 'Robyn',
+      year: 2018,
+      tracks: ['Missing U', 'Human Being', 'Because Its In The Music', 'Baby Forgive Me', 'Send To Robin Immediately', 'Honey', 'Between The Lines', 'Beach 2k20', 'Ever Again']
+    });
+    const res = await request(app).get('/api/v1/albums');
+
+    expect(res.body).toEqual([
+      {
+        id: expect.any(String),
+        title: 'Honey',
+        artist: 'Robyn',
+        year: 2018,
+        tracks: ['Missing U', 'Human Being', 'Because Its In The Music', 'Baby Forgive Me', 'Send To Robin Immediately', 'Honey', 'Between The Lines', 'Beach 2k20', 'Ever Again']
+      }
+    ]);
+  });
 });
