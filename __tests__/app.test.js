@@ -3,6 +3,7 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const Album = require('../lib/models/Album');
+const albums = require('../lib/controllers/albums');
 
 describe('any-api routes', () => {
   beforeEach(() => {
@@ -53,5 +54,17 @@ describe('any-api routes', () => {
         tracks: ['Missing U', 'Human Being', 'Because Its In The Music', 'Baby Forgive Me', 'Send To Robin Immediately', 'Honey', 'Between The Lines', 'Beach 2k20', 'Ever Again']
       }
     ]);
+  });
+
+  it('should be able to list an album by its id', async () => {
+    const album = await Album.insert({
+      title: 'FROOT',
+      artist: 'Marina',
+      year: 2015,
+      tracks: ['Happy', 'FROOT', 'Im a Ruin', 'Blue', 'Forget', 'Gold', 'Cant Pin Me Down', 'Solitaire', 'Better Than That', 'Weeds', 'Savages', 'Immortal']
+    });
+    const res = await request(app).get(`/api/v1/albums/${album.id}`);
+
+    expect(res.body).toEqual(album);
   });
 });
