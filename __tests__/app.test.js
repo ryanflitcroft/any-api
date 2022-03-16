@@ -67,4 +67,17 @@ describe('any-api routes', () => {
 
     expect(res.body).toEqual(album);
   });
+
+  it('should be able to delete an album by its id', async () => {
+    const album = await Album.insert({
+      title: '1989',
+      artist: 'Taylor Swift',
+      year: 2014,
+      tracks: ['Welcome TO New York', 'Blank Space', 'Style', 'Out Of the Woods', 'All You Had To Do Was Stay', 'Shake It Off', 'I Wish You Would', 'Bad Blood', 'Wildest Dreams', 'How You Get the Girl', 'This Love', 'I Know Places', 'Clean']
+    });
+    const res = await request(app).delete(`/api/v1/albums/${album.id}`);
+
+    expect(res.body).toEqual(album);
+    expect(await Album.getById(album.id)).toBeNull();
+  });
 });
