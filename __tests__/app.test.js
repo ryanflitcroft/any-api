@@ -74,7 +74,7 @@ describe('any-api routes', () => {
       title: 'Classics',
       artist: 'Ratatat'
     });
-    console.log('---album---', album);
+
     const res = await request(app)
       .patch(`/api/v1/albums/${album.id}`)
       .send({
@@ -83,8 +83,6 @@ describe('any-api routes', () => {
         year: 2015,
         tracks: ['Montanita', 'Lex', 'Gettysburg', 'Wildcat', 'Tropicana', 'Loud Pipes', 'Kennedy', 'Swisha', 'Nostrand', 'Tacobel Canon', 'Truman']
       });
-
-    console.log('---response---', res.body);
 
     const expected = {
       id: expect.any(String),
@@ -95,6 +93,7 @@ describe('any-api routes', () => {
     };
 
     expect(res.body).toEqual(expected);
+    expect(await Album.getById(album.id)).toEqual(expected);
   });
 
   it('should be able to delete an album by its id', async () => {
