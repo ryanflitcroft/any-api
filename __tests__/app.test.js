@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const Album = require('../lib/models/Album');
 const albums = require('../lib/controllers/albums');
+const req = require('express/lib/request');
 
 describe('any-api routes', () => {
   beforeEach(() => {
@@ -66,6 +67,34 @@ describe('any-api routes', () => {
     const res = await request(app).get(`/api/v1/albums/${album.id}`);
 
     expect(res.body).toEqual(album);
+  });
+
+  it('should be able to update an album by its id', async () => {
+    const album = await Album.insert({
+      title: 'Classics',
+      artist: 'Ratatat'
+    });
+    console.log('---album---', album);
+    const res = await request(app)
+      .patch(`/api/v1/albums/${album.id}`)
+      .send({
+        title: album.title,
+        artist: album.artist,
+        year: 2015,
+        tracks: ['Montanita', 'Lex', 'Gettysburg', 'Wildcat', 'Tropicana', 'Loud Pipes', 'Kennedy', 'Swisha', 'Nostrand', 'Tacobel Canon', 'Truman']
+      });
+
+    console.log('---response---', res.body);
+
+    const expected = {
+      id: expect.any(String),
+      title: 'Classics',
+      artist: 'Ratatat',
+      year: 2015,
+      tracks: ['Montanita', 'Lex', 'Gettysburg', 'Wildcat', 'Tropicana', 'Loud Pipes', 'Kennedy', 'Swisha', 'Nostrand', 'Tacobel Canon', 'Truman']
+    };
+
+    expect(res.body).toEqual(expected);
   });
 
   it('should be able to delete an album by its id', async () => {
